@@ -439,9 +439,11 @@ footer .sig{font:600 1.25rem var(--font-display);color:var(--ink);margin-bottom:
   const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clean = (s, n) => String(s || "").replace(/\s+/g, " ").trim().slice(0, n);
+  // In-memory only: the garden and kept words start fresh on every visit.
   const store = {
-    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
+    _m: {},
+    get(k, d) { return Object.prototype.hasOwnProperty.call(this._m, k) ? JSON.parse(this._m[k]) : d; },
+    set(k, v) { this._m[k] = JSON.stringify(v); }
   };
   const last = {};
   function pickIndex(n, key) {

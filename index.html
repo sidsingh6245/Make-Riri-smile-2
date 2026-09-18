@@ -790,6 +790,30 @@ footer .sig{font:600 1.25rem var(--font-display);color:var(--ink);margin-bottom:
   renderKept();
   nextDare();
   renderGarden(false);
+
+  /* ---------- fresh start on every visit ---------- */
+  // Never keep a scroll position or #hash between visits.
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  try { if (location.hash) history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignore */ }
+  window.scrollTo(0, 0);
+
+  // In-page links scroll without adding a #hash to the address.
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const t = document.querySelector(a.getAttribute("href"));
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+  });
+
+  // Coming back from the back/forward cache, or after the page was in the background, starts over.
+  window.addEventListener("pageshow", (e) => { if (e.persisted) location.reload(); });
+  let hiddenAt = 0;
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") { hiddenAt = Date.now(); }
+    else if (hiddenAt && Date.now() - hiddenAt > 5000) { location.reload(); }
+  });
 })();
 </script>
 </body>

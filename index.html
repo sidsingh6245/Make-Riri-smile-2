@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Riri · a tiny website to brighten your day</title>
+<meta name="description" content="A little website made just for Riri: kind words, a breathing bubble, tiny kind things to do, and a yellow friend named Mochi.">
+<meta name="theme-color" content="#FFE4EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#2B1A3A" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="For Riri · a tiny website to brighten your day">
+<meta property="og:description" content="Riri, someone wanted your day to be a little brighter. Come say hi to Mochi.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='26' fill='%23FFE27A' stroke='%23F2B233' stroke-width='3'/%3E%3Ccircle cx='23' cy='32' r='3.5' fill='%234A3040'/%3E%3Ccircle cx='41' cy='32' r='3.5' fill='%234A3040'/%3E%3Cpath d='M25 41q7 7 14 0' stroke='%234A3040' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cellipse cx='17' cy='40' rx='4' ry='2.6' fill='%23FF9BB3'/%3E%3Cellipse cx='47' cy='40' rx='4' ry='2.6' fill='%23FF9BB3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#4A3040;
+  --ink-soft:#7A5468;
+  --bg1:#FFE4EC; --bg2:#FFF4D2; --bg3:#D8F5E8;
+  --blob1:rgba(255,190,210,.75); --blob2:rgba(255,236,150,.7); --blob3:rgba(170,235,210,.7);
+  --glass-border:rgba(255,255,255,.9);
+  --shadow:0 18px 40px -20px rgba(122,60,92,.45);
+  --t-lav:rgba(227,219,255,.7); --t-mint:rgba(207,243,228,.72); --t-butter:rgba(255,242,190,.78);
+  --t-pink:rgba(255,220,232,.72); --t-white:rgba(255,255,255,.72);
+  --field-bg:rgba(255,255,255,.85); --field-border:rgba(74,48,64,.18);
+  --chip:rgba(255,255,255,.65);
+  --btn-bg:#D93D74; --btn-ink:#fff; --btn-edge:#A82658;
+  --btn2-bg:#fff; --btn2-ink:#4A3040; --btn2-edge:#EBC7D5;
+  --focus:#6D4AFF;
+  --font-display:"Fredoka","Baloo 2",ui-rounded,"Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Nunito",ui-rounded,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --ink:#FFEFF4; --ink-soft:#D9C0D2;
+    --bg1:#2B1A3A; --bg2:#3A2145; --bg3:#1E2B3E;
+    --blob1:rgba(255,120,170,.22); --blob2:rgba(255,205,90,.14); --blob3:rgba(90,220,170,.16);
+    --glass-border:rgba(255,255,255,.16);
+    --shadow:0 18px 40px -20px rgba(0,0,0,.7);
+    --t-lav:rgba(160,140,255,.17); --t-mint:rgba(90,220,170,.14); --t-butter:rgba(255,210,90,.14);
+    --t-pink:rgba(255,120,170,.17); --t-white:rgba(255,255,255,.09);
+    --field-bg:rgba(255,255,255,.08); --field-border:rgba(255,255,255,.22);
+    --chip:rgba(255,255,255,.1);
+    --btn-bg:#FF8FB0; --btn-ink:#3B1730; --btn-edge:#C4557A;
+    --btn2-bg:rgba(255,255,255,.15); --btn2-ink:#FFEFF4; --btn2-edge:rgba(255,255,255,.22);
+    --focus:#C9BCFF;
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;overflow-x:hidden;
+  font-family:var(--font-body);font-size:1.0625rem;line-height:1.6;color:var(--ink);
+  background:var(--bg1);
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(42vmax 42vmax at 6% 4%,var(--blob1),transparent 62%),
+    radial-gradient(38vmax 38vmax at 98% 22%,var(--blob2),transparent 62%),
+    radial-gradient(46vmax 46vmax at 28% 100%,var(--blob3),transparent 62%),
+    linear-gradient(180deg,var(--bg1),var(--bg2) 55%,var(--bg3));
+}
+h1,h2,h3{font-family:var(--font-display);margin:0;line-height:1.12;font-weight:600;letter-spacing:-.01em}
+h1{font-size:clamp(2.4rem,7.2vw,4.2rem);font-weight:700}
+h2{font-size:clamp(1.55rem,3.6vw,2.05rem)}
+h3{font-size:1.2rem}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+
+/* buttons — tactile, sticker-like */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  min-height:52px;padding:.7em 1.5em;border:0;border-radius:999px;
+  background:var(--btn-bg);color:var(--btn-ink);
+  font:600 1.1875rem/1 var(--font-display);text-decoration:none;cursor:pointer;
+  box-shadow:0 5px 0 var(--btn-edge),0 14px 22px -12px rgba(122,60,92,.55);
+  transition:transform .12s ease,box-shadow .12s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--btn-edge),0 4px 8px -6px rgba(122,60,92,.5)}
+.btn-2{background:var(--btn2-bg);color:var(--btn2-ink);box-shadow:0 5px 0 var(--btn2-edge),0 14px 22px -14px rgba(122,60,92,.4)}
+.btn-2:active{box-shadow:0 1px 0 var(--btn2-edge)}
+.btn-sm{min-height:44px;padding:.5em 1.1em;font-size:1rem}
+.btn[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-ink);box-shadow:0 5px 0 var(--btn-edge)}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;padding-block:18px 6px}
+.brand{font-family:var(--font-display);font-weight:700;font-size:1.7rem;text-decoration:none;letter-spacing:-.02em}
+
+/* hero */
+.hero{display:grid;gap:18px;padding-block:14px 30px;align-items:center}
+.stage{order:-1;display:flex;flex-direction:column;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.lead{max-width:34ch;font-size:1.2rem;color:var(--ink-soft)}
+.hero-copy .row{margin-top:2px}
+
+.bubble{
+  position:relative;max-width:300px;margin-bottom:16px;padding:12px 20px;text-align:center;
+  background:#fff;color:#4A3040;border-radius:26px;
+  font:500 1.15rem/1.35 var(--font-display);
+  box-shadow:0 12px 26px -14px rgba(122,60,92,.55);
+  animation:fadeIn .5s .7s both;
+}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-8px;width:18px;height:18px;background:#fff;border-radius:0 0 6px 0;transform:translateX(-50%) rotate(45deg)}
+.bubble.bump{animation:bump .35s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes bump{40%{transform:scale(1.06)}}
+
+.mochi-wrap{animation:popIn .9s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes popIn{0%{transform:translateY(50px) scale(.4);opacity:0}100%{transform:none;opacity:1}}
+.mochi{display:block;width:min(62vw,250px);padding:0;border:0;background:none;cursor:pointer;border-radius:44%;-webkit-tap-highlight-color:transparent}
+.mochi svg{display:block;width:100%;height:auto;overflow:visible}
+.squishy{transform-origin:120px 215px}
+.squishy.squish{animation:squish .55s ease}
+@keyframes squish{0%{transform:scale(1,1)}28%{transform:scale(1.12,.86)}58%{transform:scale(.94,1.08)}100%{transform:scale(1,1)}}
+.breathe-body{transform-origin:120px 212px;animation:idle 4.2s ease-in-out infinite}
+@keyframes idle{50%{transform:scale(1.025,.978)}}
+.eye-l{transform-origin:92px 122px;animation:blink 5.5s infinite}
+.eye-r{transform-origin:148px 122px;animation:blink 5.5s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+#eyes{transition:transform .08s linear}
+.grin{display:none}
+.mochi.happy .smile{display:none}
+.mochi.happy .grin{display:block}
+.arm-l{transform-origin:48px 140px}
+.arm-r{transform-origin:192px 140px}
+.mochi.happy .arm-l{animation:waveL .5s ease-in-out 2}
+.mochi.happy .arm-r{animation:waveR .5s ease-in-out 2}
+@keyframes waveL{50%{transform:rotate(-38deg)}}
+@keyframes waveR{50%{transform:rotate(38deg)}}
+.sprout{transform-origin:120px 46px;animation:sway 3.6s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(6deg)}}
+
+/* sticky note for gifts */
+.note{
+  position:relative;max-width:420px;padding:20px 22px 16px;
+  background:#FFF3B0;color:#4A3040;border-radius:8px 8px 26px 8px;
+  transform:rotate(-1.4deg);box-shadow:0 14px 26px -14px rgba(120,80,20,.55);
+}
+.note::before{content:"";position:absolute;top:-11px;left:50%;width:76px;height:22px;background:rgba(255,150,185,.62);border-radius:3px;transform:translateX(-50%) rotate(3deg)}
+.note-to{font:600 1.15rem var(--font-display)}
+.note-msg{margin-top:6px;font-size:1.1rem;line-height:1.45}
+.note-from{margin-top:10px;font:600 1rem var(--font-display);text-align:right}
+
+/* cards */
+main>section{scroll-margin-top:12px}
+.card{
+  position:relative;padding:26px 22px;margin-top:20px;
+  background:var(--t-white);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);
+  border:1.5px solid var(--glass-border);
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.55);
+}
+.card>h2+.sub{margin-top:8px}
+.sub{color:var(--ink-soft);max-width:46ch}
+.tint-lav{background:var(--t-lav)} .tint-mint{background:var(--t-mint)}
+.tint-butter{background:var(--t-butter)} .tint-pink{background:var(--t-pink)}
+.duo{display:grid;gap:0 20px}
+
+/* kind words */
+.kind{border-radius:40px;text-align:center;padding-block:32px 28px}
+.kind blockquote{
+  margin:18px auto 22px;min-height:6.6em;display:grid;place-items:center;max-width:26em;
+  font:500 clamp(1.45rem,4vw,2.25rem)/1.3 var(--font-display);
+}
+.kind blockquote.pop{animation:pop .45s cubic-bezier(.3,1.5,.5,1)}
+@keyframes pop{0%{transform:scale(.94);opacity:.2}100%{transform:none;opacity:1}}
+.kind .row{justify-content:center}
+.kept{margin-top:26px;text-align:left}
+.kept ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.kept li{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;padding:10px 14px;background:var(--chip);border-radius:20px;font-size:.98rem}
+.kept button{flex:none;width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:var(--ink-soft);font-size:1.2rem;line-height:1;cursor:pointer}
+.kept button:hover{background:rgba(217,61,116,.14)}
+
+/* mood */
+.mood{border-radius:28px}
+.faces{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0 14px}
+.face{
+  display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 2px 8px;
+  border:2px solid transparent;border-radius:22px;background:var(--chip);color:inherit;cursor:pointer;
+  font:700 .82rem var(--font-body);transition:transform .15s ease,background .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.face span:first-child{font-size:2rem;line-height:1.2}
+.face:hover{transform:translateY(-2px)}
+.face[aria-pressed="true"]{border-color:var(--btn-bg);background:var(--t-white);transform:translateY(-4px)}
+#moodReply{min-height:4.6em;margin-bottom:12px}
+.mood .btn{margin-top:2px}
+
+/* breathing */
+.breathe{border-radius:28px;text-align:center}
+.breathe .sub{margin-inline:auto}
+.orb-wrap{display:grid;place-items:center;min-height:270px}
+.orb{
+  width:140px;height:140px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#fff,#FFD3E1 55%,#FFB0C8);
+  box-shadow:0 0 0 14px rgba(255,255,255,.38),0 0 0 30px rgba(255,255,255,.18);
+  color:#4A3040;font:600 1.05rem var(--font-display);
+}
+#breathCount{min-height:1.6em;margin-top:14px}
+
+/* dare + garden */
+.dare{border-radius:32px}
+.dare-grid{display:grid;gap:22px;margin-top:16px}
+.dare-text{font:500 clamp(1.3rem,3vw,1.7rem)/1.3 var(--font-display);min-height:3.9em}
+#dareNote{min-height:1.6em;margin-top:14px;font-weight:700;color:var(--ink-soft)}
+.garden-box{padding:18px;border-radius:26px;background:var(--chip)}
+#garden{display:flex;flex-wrap:wrap;gap:2px 4px;margin:10px 0 8px;min-height:2.4rem;font-size:1.65rem;line-height:1.3}
+#garden .new{display:inline-block;animation:sprout .7s cubic-bezier(.3,1.7,.5,1)}
+@keyframes sprout{0%{transform:scale(0) translateY(10px)}100%{transform:none}}
+#gardenNote{font-size:.98rem;color:var(--ink-soft)}
+
+/* letter */
+.letter{border-radius:36px;text-align:center}
+.letter .sub{margin-inline:auto}
+.paper{
+  margin:26px auto 0;max-width:540px;padding:28px 30px 24px;text-align:left;
+  background:#FFFCF2;color:#4A3040;border-radius:8px 8px 30px 8px;
+  box-shadow:0 18px 32px -18px rgba(122,60,92,.55);transform:rotate(.5deg);
+  font-size:1.1rem;line-height:1.7;
+}
+.paper.pop{animation:pop .5s cubic-bezier(.3,1.5,.5,1)}
+.paper h3{font-size:1.5rem;margin-bottom:10px}
+.paper p+p{margin-top:12px}
+.paper .sign{margin-top:18px;font:600 1.2rem var(--font-display);text-align:right}
+
+footer{padding:34px 20px 48px;text-align:center;color:var(--ink-soft)}
+footer p{max-width:36ch;margin:0 auto}
+footer .sig{font:600 1.25rem var(--font-display);color:var(--ink);margin-bottom:6px}
+
+/* particles */
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60}
+.fx{position:absolute;translate:-50% -50%;font-family:var(--font-display);animation:floatUp var(--dur) cubic-bezier(.2,.7,.3,1) forwards;will-change:transform,opacity}
+@keyframes floatUp{
+  0%{transform:translate(0,0) scale(.4) rotate(0);opacity:0}
+  15%{opacity:1}
+  100%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(var(--rot));opacity:0}
+}
+
+@media (min-width:720px){
+  .dare-grid{grid-template-columns:1.1fr .9fr;align-items:start}
+  .card{padding:32px 32px}
+}
+@media (min-width:860px){
+  .hero{grid-template-columns:1.05fr .95fr;gap:36px;padding-block:28px 40px}
+  .stage{order:0}
+  .mochi{width:min(30vw,320px)}
+  .duo{grid-template-columns:1fr 1fr}
+  .duo .card{margin-top:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+
+<body>
+<header class="wrap top">
+  <a class="brand" href="#top" aria-label="Mochi, back to the top">Mochi</a>
+  <a class="btn btn-2 btn-sm" href="#letter">Your letter</a>
+</header>
+
+<main id="top">
+  <section class="wrap hero" aria-label="Welcome">
+    <div class="hero-copy">
+      <aside class="note" id="gift">
+        <p class="note-to" id="giftTo"></p>
+        <p class="note-msg" id="giftMsg"></p>
+        <p class="note-from" id="giftFrom"></p>
+      </aside>
+      <h1 id="heroTitle">Riri, let's make your day a little brighter.</h1>
+      <p class="lead" id="heroLead">Mochi made this just for you. Kind words, a breathing bubble, and tiny kind things to do. Start anywhere.</p>
+      <div class="row">
+        <button class="btn" id="cheerBtn" type="button">Cheer me up</button>
+        <a class="btn btn-2" href="#letter">Open your letter</a>
+      </div>
+    </div>
+
+    <div class="stage">
+      <p class="bubble" id="bubble" aria-live="polite">Hi! Tap me!</p>
+      <div class="mochi-wrap">
+        <button class="mochi" id="mochi" type="button" aria-label="Tap Mochi for a hug">
+          <svg id="mochiSvg" viewBox="0 0 240 250" aria-hidden="true" focusable="false">
+            <defs>
+              <radialGradient id="mochiBody" cx="38%" cy="30%" r="80%">
+                <stop offset="0" stop-color="#FFF3A8"/>
+                <stop offset=".55" stop-color="#FFE071"/>
+                <stop offset="1" stop-color="#FFC94A"/>
+              </radialGradient>
+            </defs>
+            <ellipse cx="120" cy="228" rx="72" ry="10" fill="#7A3C5C" opacity=".2"/>
+            <g class="squishy" id="squishy">
+              <g class="breathe-body">
+                <g class="sprout">
+                  <path d="M120 48 C120 38 121 29 124 20" stroke="#4FB58B" stroke-width="5" fill="none" stroke-linecap="round"/>
+                  <path d="M124 22 C136 6 156 8 160 20 C150 32 133 32 124 22Z" fill="#7BD4A8"/>
+                  <path d="M122 29 C110 15 93 17 89 28 C99 39 114 39 122 29Z" fill="#93E3BE"/>
+                </g>
+                <ellipse cx="90" cy="209" rx="21" ry="11" fill="#FFCB47" stroke="#F2B233" stroke-width="2.5"/>
+                <ellipse cx="150" cy="209" rx="21" ry="11" fill="#FFCB47" stroke="#F2B233" stroke-width="2.5"/>
+                <g class="arm-l"><ellipse cx="36" cy="142" rx="15" ry="10" fill="#FFD24A" stroke="#F2B233" stroke-width="2.5"/></g>
+                <g class="arm-r"><ellipse cx="204" cy="142" rx="15" ry="10" fill="#FFD24A" stroke="#F2B233" stroke-width="2.5"/></g>
+                <path d="M120 44 C178 44 206 84 206 134 C206 186 170 214 120 214 C70 214 34 186 34 134 C34 84 62 44 120 44Z" fill="url(#mochiBody)" stroke="#F2B233" stroke-width="3"/>
+                <path d="M64 98 C72 77 91 65 112 61" stroke="#fff" stroke-opacity=".7" stroke-width="8" fill="none" stroke-linecap="round"/>
+                <ellipse cx="70" cy="150" rx="16" ry="9.5" fill="#FF8FAB" opacity=".72"/>
+                <ellipse cx="170" cy="150" rx="16" ry="9.5" fill="#FF8FAB" opacity=".72"/>
+                <g id="eyes">
+                  <g class="eye-l"><circle cx="92" cy="122" r="10.5" fill="#4A3040"/><circle cx="95.5" cy="118" r="3.5" fill="#fff"/></g>
+                  <g class="eye-r"><circle cx="148" cy="122" r="10.5" fill="#4A3040"/><circle cx="151.5" cy="118" r="3.5" fill="#fff"/></g>
+                </g>
+                <path class="smile" d="M108 144 Q120 158 132 144" stroke="#4A3040" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                <g class="grin">
+                  <path d="M106 141 Q120 172 134 141 Z" fill="#B83A5C" stroke="#4A3040" stroke-width="4" stroke-linejoin="round"/>
+                  <path d="M113 154 Q120 162 127 154 Q120 149 113 154Z" fill="#FF8FAB"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <!-- A kind word -->
+    <section class="card tint-lav kind" id="kind" aria-labelledby="kindH">
+      <h2 id="kindH">A kind word, just for you</h2>
+      <blockquote id="kindText" aria-live="polite"></blockquote>
+      <div class="row">
+        <button class="btn" id="kindNext" type="button">Another one</button>
+        <button class="btn btn-2" id="kindKeep" type="button" aria-pressed="false">♥ Keep this</button>
+      </div>
+      <div class="kept" id="kept" hidden>
+        <h3>Kept close</h3>
+        <ul id="keptList"></ul>
+      </div>
+    </section>
+
+    <div class="duo">
+      <!-- Mood -->
+      <section class="card tint-mint mood" id="mood" aria-labelledby="moodH">
+        <h2 id="moodH">How is today feeling?</h2>
+        <p class="sub">No wrong answers. Pick the one that fits.</p>
+        <div class="faces" role="group" aria-label="Pick how today feels">
+          <button class="face" type="button" data-mood="0" aria-pressed="false"><span aria-hidden="true">😣</span><span>Rough</span></button>
+          <button class="face" type="button" data-mood="1" aria-pressed="false"><span aria-hidden="true">😔</span><span>Low</span></button>
+          <button class="face" type="button" data-mood="2" aria-pressed="false"><span aria-hidden="true">😐</span><span>Okay</span></button>
+          <button class="face" type="button" data-mood="3" aria-pressed="false"><span aria-hidden="true">🙂</span><span>Good</span></button>
+          <button class="face" type="button" data-mood="4" aria-pressed="false"><span aria-hidden="true">🤩</span><span>Great</span></button>
+        </div>
+        <p id="moodReply" aria-live="polite"></p>
+        <a class="btn btn-2 btn-sm" id="moodNext" href="#kind" hidden>Get a kind word</a>
+      </section>
+
+      <!-- Breathe -->
+      <section class="card tint-butter breathe" id="breathe" aria-labelledby="breatheH">
+        <h2 id="breatheH">Breathe with Mochi</h2>
+        <p class="sub">Five slow breaths. Follow the bubble.</p>
+        <div class="orb-wrap"><div class="orb" id="orb"><span id="breathText" aria-live="polite">Ready?</span></div></div>
+        <button class="btn" id="breathBtn" type="button">Start breathing</button>
+        <p class="sub" id="breathCount"></p>
+      </section>
+    </div>
+
+    <!-- Tiny kind thing -->
+    <section class="card tint-pink dare" id="dare" aria-labelledby="dareH">
+      <h2 id="dareH">One tiny kind thing</h2>
+      <div class="dare-grid">
+        <div>
+          <p class="dare-text" id="dareText"></p>
+          <div class="row" style="margin-top:14px">
+            <button class="btn" id="dareDone" type="button">I did it!</button>
+            <button class="btn btn-2" id="dareSkip" type="button">Give me another</button>
+          </div>
+          <p id="dareNote" aria-live="polite"></p>
+        </div>
+        <div class="garden-box">
+          <h3>Mochi's garden</h3>
+          <div id="garden"></div>
+          <p id="gardenNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Letter -->
+    <section class="card tint-white letter" id="letter" aria-labelledby="letterH">
+      <h2 id="letterH">One more thing, Riri</h2>
+      <p class="sub">There's a letter waiting for you. Open it whenever you're ready.</p>
+      <div class="row" style="justify-content:center;margin-top:20px">
+        <button class="btn" id="envBtn" type="button" aria-expanded="false" aria-controls="letterBody">✉ Open your letter</button>
+      </div>
+      <div class="paper" id="letterBody" hidden></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <p class="sig">You've got this, Riri.</p>
+  <p>Made with a lot of love. Now go drink some water.</p>
+</footer>
+
+<div id="fx" aria-hidden="true"></div>
+
+<noscript>
+  <p style="text-align:center;padding:24px;font-family:sans-serif">Mochi needs JavaScript to say hi, but here's a kind word anyway: you're doing better than you think.</p>
+</noscript>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ===== EDIT ME =====
+     Everything personal lives here. Change the text, keep the quotes. */
+  const NAME = "Riri";
+  const FROM = ""; // your name, e.g. "Sam". Leave empty to skip the signature.
+  const NOTE = "I made this little corner of the internet just for you. Open it whenever you need a smile.";
+  const LETTER = [
+    "I hope today is being gentle with you. If it isn't, I hope this little page helped, even a tiny bit.",
+    "You matter more than you probably let yourself believe. The way you show up and the way you care make a real difference to the people around you, and to me.",
+    "On the hard days, take a breath, drink some water, and be as kind to yourself as you are to everyone else. On the good days, keep shining. I'm cheering for you either way."
+  ];
+  /* ===== END EDIT ME ===== */
+
+  /* ---------- helpers ---------- */
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clean = (s, n) => String(s || "").replace(/\s+/g, " ").trim().slice(0, n);
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
+  };
+  const last = {};
+  function pickIndex(n, key) {
+    if (n < 2) return 0;
+    let i;
+    do { i = Math.floor(Math.random() * n); } while (i === last[key]);
+    last[key] = i;
+    return i;
+  }
+
+  /* ---------- content ---------- */
+  const KIND = [
+    "You don't have to be perfect to be wonderful.",
+    "{name}, the people who love you would pick you again every single time.",
+    "You've gotten through every hard day so far. That's a 100% record.",
+    "Your kindness leaves a little glow behind, even when you can't see it.",
+    "It's okay to rest. Rest is part of the work.",
+    "Somebody is smiling today because of something you did once. You just don't know it yet.",
+    "You are allowed to take up space, {name}.",
+    "Small steps count. Even the wobbly ones.",
+    "You make ordinary moments feel softer.",
+    "Whatever you're carrying today, you don't have to carry it fast.",
+    "Your laugh is probably somebody's favorite sound.",
+    "You're braver than the you from last year would believe.",
+    "Starting again is not failing. Again is a brave word.",
+    "You're a good egg, {name}. A really, really good egg.",
+    "Being gentle with yourself is a skill, and you're practicing it right now.",
+    "The world is a little warmer with you in it.",
+    "Your best today can look different from your best yesterday. Both count.",
+    "Nobody else sees things quite the way you do, and that's a gift.",
+    "You're not behind. You're on your own lovely timeline.",
+    "Drink some water, unclench your shoulders, and know you're doing fine.",
+    "If you were a snack, you'd be a warm cookie: comforting and impossible to dislike.",
+    "You've earned a soft moment today, {name}.",
+    "Your effort matters even when nobody claps for it. Here, I'll clap. Clap clap clap.",
+    "Some days the win is simply showing up, and you showed up.",
+    "You have good ideas. Yes, even that one you're doubting.",
+    "Tomorrow-you will be so glad you were kind to today-you.",
+    "You're someone's favorite person to hear from.",
+    "Hard days end. Cozy evenings exist. Snacks are real.",
+    "Thank you for being here, {name}. Truly.",
+    "You're growing in ways you can't see yet, like a sprout under the soil.",
+    "Your feelings are welcome here. All of them.",
+    "You make people feel seen. That's rare and precious.",
+    "Look at you, still trying. That's the whole magic.",
+    "You're enough exactly as you are right now, and also allowed to keep growing.",
+    "Big deep breath: in through the nose, out through the mouth. There. Better already."
+  ];
+
+  const MOCHI_LINES = [
+    "Hehe! That tickles.", "You found me!", "I believe in you. Big time.", "Boop!",
+    "Psst... you're doing great, {name}.", "Squish squish!", "You're my favorite human today.",
+    "I'm so proud of you.", "Want a kind word? Try the button below.", "Wheee!",
+    "You smell like sunshine. Probably."
+  ];
+
+  const MOODS = [
+    { r: "Oof, I'm sorry today is heavy. You don't have to fix anything right now. Try a few slow breaths, and be extra gentle with yourself. If it feels like too much, reaching out to someone you trust can really help.", to: "#breathe", label: "Breathe with Mochi" },
+    { r: "Low days are real days. Nothing to solve, just something to get through softly. A warm drink and one tiny kind thing can help.", to: "#breathe", label: "Try the breathing bubble" },
+    { r: "Okay is a perfectly good place to be. Let's add a little sparkle.", to: "#kind", label: "Get a kind word" },
+    { r: "Yay! Good days are made for sharing. Want to pass a little of it on?", to: "#dare", label: "Do a tiny kind thing" },
+    { r: "Yesss! Hold on to that feeling. Maybe spread a little of it around?", to: "#dare", label: "Do a tiny kind thing" }
+  ];
+
+  const DARES = [
+    "Send a friend a photo that reminds you of them.",
+    "Say thank you to someone who doesn't expect it.",
+    "Leave a kind comment on something you liked online.",
+    "Hold the door for someone and give them a smile.",
+    "Text someone you haven't talked to in a while: \"Thinking of you.\"",
+    "Compliment a stranger's shoes, bag, or smile.",
+    "Tidy one tiny corner of your space.",
+    "Drink a full glass of water. Hydration is self-kindness.",
+    "Write down three things that went okay today.",
+    "Give your pet, plant, or favorite mug a little pat. It counts.",
+    "Tell someone one thing you appreciate about them.",
+    "Step outside for two minutes and look at the sky.",
+    "Put on a song that makes you smile.",
+    "Forgive yourself for one small thing from this week.",
+    "Ask someone how they're really doing, then listen.",
+    "Stretch your arms up high and take a big yawn.",
+    "Share a snack or a laugh with someone.",
+    "Leave a genuinely nice review for a small business you like.",
+    "Send a voice note to someone who'd love to hear your voice.",
+    "Do one thing you've been putting off, even for two minutes.",
+    "Smile at yourself in a mirror. Yes, really.",
+    "Pick up one piece of litter on your walk.",
+    "Message a teacher, coach, or mentor who helped you.",
+    "Make someone a drink the way they like it."
+  ];
+  const PRAISE = ["Look at you, spreading joy!", "A flower just sprouted!", "That made the world a little softer.", "Mochi is doing a happy dance."];
+  const FLOWERS = ["🌷", "🌼", "🌸", "🌻", "🌺", "🌹", "🌱"];
+  const GLYPHS = ["♥", "♥", "✦", "★", "✿"];
+  const COLORS = ["#FF6F91", "#FFB84D", "#7BD4A8", "#A78BFA", "#FF8FAB"];
+
+  /* ---------- personalisation ---------- */
+  const fill = (t) => t.replace(/\{name\}/g, NAME);
+
+  /* ---------- particles ---------- */
+  const fx = $("#fx");
+  function burst(x, y, n, spread) {
+    if (reduced()) return;
+    spread = spread || 120;
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement("span");
+      el.className = "fx";
+      el.textContent = rand(GLYPHS);
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      el.style.color = rand(COLORS);
+      el.style.fontSize = (14 + Math.random() * 16) + "px";
+      el.style.setProperty("--dx", ((Math.random() * 2 - 1) * spread) + "px");
+      el.style.setProperty("--dy", (-40 - Math.random() * spread * 1.3) + "px");
+      el.style.setProperty("--rot", (Math.random() * 90 - 45) + "deg");
+      el.style.setProperty("--dur", (900 + Math.random() * 700) + "ms");
+      el.addEventListener("animationend", () => el.remove());
+      fx.appendChild(el);
+    }
+  }
+  function burstAt(el, n, spread) {
+    const r = el.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, n, spread);
+  }
+
+  /* ---------- Mochi ---------- */
+  const mochi = $("#mochi"), svg = $("#mochiSvg"), squishy = $("#squishy"), eyes = $("#eyes"), bubble = $("#bubble");
+  let taps = 0, happyTimer = 0, rafId = 0;
+
+  function say(text) {
+    bubble.textContent = text;
+    bubble.classList.remove("bump");
+    void bubble.offsetWidth;
+    bubble.classList.add("bump");
+  }
+  function greet() { say("Hi " + NAME + "! Tap me!"); }
+
+  mochi.addEventListener("click", () => {
+    taps++;
+    squishy.classList.remove("squish");
+    void svg.getBoundingClientRect();
+    squishy.classList.add("squish");
+    mochi.classList.add("happy");
+    clearTimeout(happyTimer);
+    happyTimer = setTimeout(() => mochi.classList.remove("happy"), 1100);
+    const big = taps % 10 === 0;
+    const r = svg.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height * 0.3, big ? 28 : 9, big ? 180 : 110);
+    say(big ? "Okay okay, you're officially my best friend. ♥" : fill(MOCHI_LINES[pickIndex(MOCHI_LINES.length, "mochi")]));
+  });
+
+  window.addEventListener("pointermove", (e) => {
+    if (reduced()) return;
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      const r = svg.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height * 0.5);
+      const d = Math.hypot(dx, dy) || 1;
+      const m = Math.min(5.5, d / 40);
+      eyes.style.transform = "translate(" + (dx / d * m) + "px," + (dy / d * m * 0.8) + "px)";
+    });
+  }, { passive: true });
+
+  /* ---------- hero ---------- */
+  function renderHero() {
+    $("#giftTo").textContent = "For " + NAME;
+    $("#giftMsg").textContent = NOTE;
+    if (FROM) { $("#giftFrom").textContent = "with love, " + FROM; } else { $("#giftFrom").hidden = true; }
+    greet();
+  }
+  $("#cheerBtn").addEventListener("click", (e) => {
+    nextKind();
+    burstAt(e.currentTarget, 12, 110);
+    $("#kind").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" });
+  });
+
+  /* ---------- kind words ---------- */
+  const kindText = $("#kindText"), keepBtn = $("#kindKeep");
+  let kindIdx = 0;
+  function renderKind(animate) {
+    kindText.textContent = fill(KIND[kindIdx]);
+    if (animate) { kindText.classList.remove("pop"); void kindText.offsetWidth; kindText.classList.add("pop"); }
+    syncKeep();
+  }
+  function nextKind() { kindIdx = pickIndex(KIND.length, "kind"); renderKind(true); }
+  $("#kindNext").addEventListener("click", (e) => { nextKind(); burstAt(e.currentTarget, 7, 90); });
+
+  function kept() { return store.get("mochi:kept", []); }
+  function syncKeep() {
+    const on = kept().indexOf(kindText.textContent) !== -1;
+    keepBtn.setAttribute("aria-pressed", String(on));
+    keepBtn.textContent = on ? "♥ Kept" : "♥ Keep this";
+  }
+  function renderKept() {
+    const list = kept(), ul = $("#keptList");
+    ul.textContent = "";
+    list.forEach((t, i) => {
+      const li = document.createElement("li");
+      const span = document.createElement("span");
+      span.textContent = t;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = "×";
+      b.setAttribute("aria-label", "Remove this kept kind word");
+      b.addEventListener("click", () => {
+        const l = kept(); l.splice(i, 1); store.set("mochi:kept", l); renderKept(); syncKeep();
+      });
+      li.append(span, b);
+      ul.appendChild(li);
+    });
+    $("#kept").hidden = list.length === 0;
+  }
+  keepBtn.addEventListener("click", () => {
+    const l = kept(), t = kindText.textContent, i = l.indexOf(t);
+    if (i === -1) { l.unshift(t); burstAt(keepBtn, 8, 80); } else { l.splice(i, 1); }
+    store.set("mochi:kept", l.slice(0, 8));
+    renderKept(); syncKeep();
+  });
+
+  /* ---------- mood ---------- */
+  const moodNext = $("#moodNext");
+  $$(".face").forEach((b) => b.addEventListener("click", () => {
+    const m = MOODS[Number(b.dataset.mood)];
+    $$(".face").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    $("#moodReply").textContent = m.r;
+    moodNext.href = m.to;
+    moodNext.textContent = m.label;
+    moodNext.hidden = false;
+    if (Number(b.dataset.mood) >= 3) burstAt(b, 10, 100);
+  }));
+  moodNext.addEventListener("click", () => { if (moodNext.getAttribute("href") === "#kind") nextKind(); });
+
+  /* ---------- breathing ---------- */
+  const orb = $("#orb"), breathText = $("#breathText"), breathBtn = $("#breathBtn"), breathCount = $("#breathCount");
+  const PHASES = [
+    { t: "Breathe in", s: 4, scale: 1.45 },
+    { t: "Hold", s: 2, scale: 1.45 },
+    { t: "Breathe out", s: 6, scale: 1 }
+  ];
+  const TOTAL = 5;
+  let breathing = false, breathTimer = 0, cycle = 0, phase = 0;
+
+  function setOrb(scale, secs) {
+    if (reduced()) return;
+    orb.style.transition = "transform " + secs + "s ease-in-out";
+    orb.style.transform = "scale(" + scale + ")";
+  }
+  function stopBreath(msg, count) {
+    clearTimeout(breathTimer);
+    breathing = false;
+    setOrb(1, 0.8);
+    breathText.textContent = msg || "Ready?";
+    breathBtn.textContent = "Start breathing";
+    breathCount.textContent = count || "";
+  }
+  function step() {
+    const p = PHASES[phase];
+    breathText.textContent = p.t;
+    setOrb(p.scale, p.s);
+    breathCount.textContent = "Breath " + (cycle + 1) + " of " + TOTAL;
+    breathTimer = setTimeout(() => {
+      phase++;
+      if (phase >= PHASES.length) {
+        phase = 0; cycle++;
+        if (cycle >= TOTAL) {
+          stopBreath("Nicely done", "Five slow breaths. Feel any softer?");
+          burstAt(orb, 16, 140);
+          return;
+        }
+      }
+      step();
+    }, p.s * 1000);
+  }
+  breathBtn.addEventListener("click", () => {
+    if (breathing) { stopBreath("Ready?", "Stopped. Come back any time."); return; }
+    breathing = true; cycle = 0; phase = 0;
+    breathBtn.textContent = "Stop";
+    step();
+  });
+
+  /* ---------- tiny kind thing + garden ---------- */
+  const dareText = $("#dareText"), dareNote = $("#dareNote"), garden = $("#garden");
+  function nextDare() { dareText.textContent = DARES[pickIndex(DARES.length, "dare")]; }
+  function renderGarden(sproutNewest) {
+    const g = store.get("mochi:garden", []);
+    garden.textContent = "";
+    const shown = g.slice(-40);
+    shown.forEach((f, i) => {
+      const s = document.createElement("span");
+      s.textContent = f;
+      s.setAttribute("aria-hidden", "true");
+      if (sproutNewest && i === shown.length - 1) s.className = "new";
+      garden.appendChild(s);
+    });
+    $("#gardenNote").textContent = g.length
+      ? g.length + " kind " + (g.length === 1 ? "thing" : "things") + " done. Each flower is one of them."
+      : "Nothing here yet. Do a tiny kind thing and a flower will sprout.";
+  }
+  $("#dareDone").addEventListener("click", (e) => {
+    const g = store.get("mochi:garden", []);
+    g.push(rand(FLOWERS));
+    store.set("mochi:garden", g.slice(-200));
+    renderGarden(true);
+    burstAt(e.currentTarget, 16, 130);
+    dareNote.textContent = rand(PRAISE);
+    nextDare();
+  });
+  $("#dareSkip").addEventListener("click", () => { dareNote.textContent = ""; nextDare(); });
+
+  /* ---------- letter ---------- */
+  const envBtn = $("#envBtn"), paper = $("#letterBody");
+  (function buildLetter() {
+    const h = document.createElement("h3");
+    h.textContent = "Dear " + NAME + ",";
+    paper.appendChild(h);
+    LETTER.forEach((t) => {
+      const p = document.createElement("p");
+      p.textContent = fill(t);
+      paper.appendChild(p);
+    });
+    const sig = document.createElement("p");
+    sig.className = "sign";
+    sig.textContent = FROM ? "with love, " + FROM : "with love";
+    paper.appendChild(sig);
+  })();
+  envBtn.addEventListener("click", () => {
+    const opening = paper.hidden;
+    paper.hidden = !opening;
+    envBtn.setAttribute("aria-expanded", String(opening));
+    envBtn.textContent = opening ? "Close the letter" : "✉ Open your letter";
+    if (opening) {
+      paper.classList.remove("pop");
+      void paper.offsetWidth;
+      paper.classList.add("pop");
+      burstAt(envBtn, 18, 140);
+      paper.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "nearest" });
+    }
+  });
+
+  /* ---------- init ---------- */
+  renderHero();
+  kindIdx = pickIndex(KIND.length, "kind");
+  renderKind(false);
+  renderKept();
+  nextDare();
+  renderGarden(false);
+})();
+</script>
+</body>
+</html>
